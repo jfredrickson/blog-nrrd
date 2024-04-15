@@ -10,7 +10,7 @@ module.exports = {
     title: 'Open data, design, & development at the Department of the Interior',
     author: 'Ryan Johnson',
     description: 'Our blog about data, design, and innovation at the Department of the Interior',
-    siteUrl: 'https://revenuedata.doi.gov/',
+    siteUrl: 'https://blog-nrrd.doi.gov',
   },
   pathPrefix: `${BASEURL}/`,
   mapping: {
@@ -97,13 +97,15 @@ module.exports = {
         `,
         feeds: [
           {
+            title: 'Open data, design, & development at the Department of the Interior',
             serialize: ({ query: { site, allMarkdownRemark } }) => {
               return allMarkdownRemark.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
+                  title: edge.node.frontmatter.title,
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.date,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  guid: edge.node.fields.slug,
                   custom_elements: [{ "content:encoded": edge.node.excerpt }],
                 })
               })
@@ -114,7 +116,6 @@ module.exports = {
                   edges {
                     node {
                       excerpt
-                      html
                       fields { slug }
                       frontmatter {
                         title
